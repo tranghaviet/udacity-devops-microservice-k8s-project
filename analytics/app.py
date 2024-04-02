@@ -3,7 +3,7 @@ import os
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime, timedelta
-from flask import jsonify, request
+from flask import jsonify, make_response
 from sqlalchemy import and_, text
 from random import randint
 
@@ -42,6 +42,8 @@ def get_daily_visits():
         response = {}
         for row in result:
             response[str(row[0])] = row[1]
+            # Convert date object to string in 'YYYY-MM-DD' format
+            # response[row[0].strftime('%Y-%m-%d')] = row[1]
 
         app.logger.info(response)
 
@@ -51,6 +53,7 @@ def get_daily_visits():
 @app.route("/api/reports/daily_usage", methods=["GET"])
 def daily_visits():
     return jsonify(get_daily_visits)
+    # return make_response(jsonify(get_daily_visits), 200)
 
 
 @app.route("/api/reports/user_visits", methods=["GET"])
@@ -73,7 +76,7 @@ def all_user_visits():
             "visits": row[1],
             "joined_at": str(row[2])
         }
-    
+
     return jsonify(response)
 
 
@@ -83,3 +86,4 @@ scheduler.start()
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=port_number)
+    # app.run(host="0.0.0.0", port=port_number, debug=True)
