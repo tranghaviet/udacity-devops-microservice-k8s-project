@@ -18,9 +18,10 @@ ENV DB_PASSWORD=mypassword
 ENV DB_HOST=127.0.0.1
 ENV DB_PORT=5433
 ENV DB_NAME=mydatabase
+ENV APP_PORT=5153
 
-# Make port 5153 available to the world outside this container
-EXPOSE 5153
+# Make port APP_PORT available to the world outside this container
+EXPOSE ${APP_PORT}
 
 # Run app.py when the container launches
 CMD ["python", "app.py"]
