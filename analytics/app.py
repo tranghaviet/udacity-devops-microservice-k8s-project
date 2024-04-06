@@ -2,10 +2,8 @@ import logging
 import os
 
 from apscheduler.schedulers.background import BackgroundScheduler
-from datetime import datetime, timedelta
-from flask import jsonify, make_response
-from sqlalchemy import and_, text
-from random import randint
+from flask import jsonify
+from sqlalchemy import text
 
 from config import app, db
 
@@ -21,7 +19,7 @@ def health_check():
 @app.route("/readiness_check")
 def readiness_check():
     try:
-        count = db.session.query(Token).count()
+        count = db.session.execute(text("SELECT COUNT(*) FROM tokens")).scalar()
     except Exception as e:
         app.logger.error(e)
         return "failed", 500
@@ -39,11 +37,11 @@ def get_daily_visits():
         GROUP  BY Date(created_at)
         """))
 
+        print("get_daily_visits success")
+
         response = {}
         for row in result:
             response[str(row[0])] = row[1]
-            # Convert date object to string in 'YYYY-MM-DD' format
-            # response[row[0].strftime('%Y-%m-%d')] = row[1]
 
         app.logger.info(response)
 
@@ -52,8 +50,7 @@ def get_daily_visits():
 
 @app.route("/api/reports/daily_usage", methods=["GET"])
 def daily_visits():
-    return jsonify(get_daily_visits)
-    # return make_response(jsonify(get_daily_visits), 200)
+    return jsonify(get_daily_visits())
 
 
 @app.route("/api/reports/user_visits", methods=["GET"])
@@ -86,4 +83,3 @@ scheduler.start()
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=port_number)
-    # app.run(host="0.0.0.0", port=port_number, debug=True)
