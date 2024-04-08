@@ -46,16 +46,28 @@ spec:
           timeoutSeconds: 5
         env:
         - name: DB_HOST
-          value: <SERVICE_NAME>-postgresql
+          valueFrom:
+            configMapKeyRef:
+              name: coworking-postgresql
+              key: DB_HOST
         - name: DB_PORT
-          value: "5432"
+          valueFrom:
+            configMapKeyRef:
+              name: coworking-postgresql
+              key: DB_PORT
         - name: DB_USERNAME
-          value: postgres
+          valueFrom:
+            configMapKeyRef:
+              name: coworking-postgresql
+              key: DB_USERNAME
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: <SERVICE_NAME>-postgresql
+              name: coworking-postgresql
               key: postgres-password
         - name: DB_NAME
-          value: postgres
+          valueFrom:
+            configMapKeyRef:
+              name: coworking-postgresql
+              key: DB_NAME
       restartPolicy: Always
