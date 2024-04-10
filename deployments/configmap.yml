@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: coworking-postgresql
 data:
-  DB_HOST: "postgresql-service" # TODO: DB_HOST is the name of the service that you get from running kubectl get svc
+  DB_HOST: "postgresql-service" # DB_HOST is the name of the service that you get from running kubectl get svc
   DB_USERNAME: "myuser"
   DB_PORT: "5432"
   DB_NAME: "mydatabase"
