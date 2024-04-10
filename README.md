@@ -51,9 +51,9 @@ The application leverages a containerized Flask Python backend, to interact with
 
 ### **Additional Considerations / Suggestions:**
 
-1. **Memory and CPU allocation:** Analyze application resource utilization through monitoring tools. Start with a conservative allocation and scale up based on observed usage patterns. Define memory requests and limits to ensure pods have guaranteed resources and prevent resource starvation.
+1. **Memory and CPU allocation:** Analyze application resource utilization through monitoring tools. Start with a conservative allocation and scale up based on observed usage patterns. Then we can define memory requests and limits to ensure pods have guaranteed resources and prevent resource starvation.
 
-2. **AWS instance type:** Consider using a cost-effective instance type from the Amazon EC2 T family (e.g., t3.medium) for development and testing environments. T instances provide burstable CPU credits for occasional spikes in demand while offering lower baseline costs compared to constantly high-performing instance types.
+2. **AWS instance type:** t3/small would be the best instance type for the application. T instances provide burstable CPU credits for occasional spikes in demand while offering lower baseline costs compared to constantly high-performing instance types.
 
 3. **Cost Saving Strategies:** Utilize AWS Auto Scaling to automatically adjust the number of EC2 instances based on application load. This ensures you only pay for the resources you actually use. Explore spot instances for unpredictable workloads. Spot instances offer significant cost savings but come with the risk of interruption. Consider using them for non-critical tasks.
 
